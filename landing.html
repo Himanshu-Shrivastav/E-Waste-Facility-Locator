@@ -297,65 +297,58 @@ a{
 
 <script src="animation.js">//   him // sagar</script>
 
+<!-- firebase -->
 <script type="module">
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification,signInWithEmailAndPassword,sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
-
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAlqVV9lf9XXYBYL4w77OfwduSez8aHXeQ",
-    authDomain: "e-waste-facility-locator-6c206.firebaseapp.com",
-    projectId: "e-waste-facility-locator-6c206",
-    storageBucket: "e-waste-facility-locator-6c206.appspot.com",
-    messagingSenderId: "819823715924",
-    appId: "1:819823715924:web:248adf1a665c1827f72fc1",
-    measurementId: "G-6RXQHWCKMG"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = getAuth();
-  const db = getDatabase(app);
-
-  document.getElementById("signupSubmit").addEventListener("click", function (event) {
-    event.preventDefault();
-    var email = document.getElementById("signupEmail").value;
-    var password = document.getElementById("signupPassword").value;
-    var username = document.getElementById("username").value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            sendEmailVerification(auth.currentUser)
-                .then(() => {
-                    set(ref(db, 'users/' + userCredential.user.uid), {
-                        email: email,
-                        username: username
-                    }).then(() => {
-                        console.log("User data stored successfully.");
-                        alert("Verification email sent. Please verify your email to complete registration.");
-                        window.location.href = "index.html";
-                    }).catch((error) => {
-                        console.error("Error storing user data:", error.message);
-                        alert("Error storing user data: " + error.message);
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5YDUU2TAwLbg0YOAOg-FsLgc67VD6aH8",
+        authDomain: "e-waste-locator-3442a.firebaseapp.com",
+        databaseURL: "https://e-waste-locator-3442a-default-rtdb.firebaseio.com",
+        projectId: "e-waste-locator-3442a",
+        storageBucket: "e-waste-locator-3442a.appspot.com",
+        messagingSenderId: "405875878189",
+        appId: "1:405875878189:web:e232daffdfeac723c8cba4",
+        measurementId: "G-7J0Q6M70BT"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getDatabase();
+    // Add event listener to signupSubmit button
+    document.getElementById("signupSubmit").addEventListener("click", function (event) {
+        event.preventDefault();
+        var email = document.getElementById("signupEmail").value;
+        var password = document.getElementById("signupPassword").value;
+        var username = document.getElementById("username").value;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                sendEmailVerification(auth.currentUser)
+                    .then(() => {
+                        set(ref(db, 'users/' + userCredential.user.uid), {
+                            email: email,
+                            username: username
+                        }).then(() => {
+                            console.log("User data stored successfully.");
+                            alert("Verification email sent. Please verify your email to complete registration.");
+                            window.location.href = "index.html";
+                        }).catch((error) => {
+                            console.error("Error storing user data:", error.message);
+                            alert("Error storing user data: " + error.message);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Error sending verification email:", error.message);
+                        alert("Error sending verification email: " + error.message);
                     });
-                })
-                .catch((error) => {
-                    console.error("Error sending verification email:", error.message);
-                    alert("Error sending verification email: " + error.message);
-                });
-        })
-        .catch((error) => {
-            console.error("Registration error:", error.message);
-            alert("Registration error: " + error.message);
-        });
+            })
+            .catch((error) => {
+                console.error("Registration error:", error.message);
+                alert("Registration error: " + error.message);
+            });
     });
 
     document.getElementById("loginSubmit").addEventListener("click", function (event) {
@@ -376,7 +369,6 @@ a{
                 alert(errorMessage);
             });
     });
-
     document.getElementById("forgotPassword").addEventListener("click", function (event) {
         event.preventDefault();
         var email = document.getElementById("loginUsername").value;
@@ -394,62 +386,7 @@ a{
         }
     });
 
-    console.log();
-
-    //firebase.initializeApp(firebaseConfig);
-
-    // Get a reference to the authentication service
-    //const auth = firebase.auth();
-
-    // Function to handle user login
-    //function loginUser(email, password) {
-    //auth.signInWithEmailAndPassword(email, password)
-        //.then((userCredential) => {
-        // Signed in
-        //const user = userCredential.user;
-        //console.log("User logged in:", user);
-        // You can redirect the user or perform any other action here
-        //})
-        //.catch((error) => {
-        //const errorCode = error.code;
-        //const errorMessage = error.message;
-        //console.error("Login error:", errorMessage);
-        // Handle login error (display error message, etc.)
-        //});
-    //} 
-
-    // Function to handle user signup
-    //function signUpUser(email, password) {
-    //auth.createUserWithEmailAndPassword(email, password)
-    //    .then((userCredential) => {
-       // Signed up
-    //    const user = userCredential.user;
-    //    console.log("User signed up:", user);
-        // You can redirect the user or perform any other action here
-    //    })
-    //    .catch((error) => {
-    //    const errorCode = error.code;
-    //    const errorMessage = error.message;
-    //    console.error("Signup error:", errorMessage);
-        // Handle signup error (display error message, etc.)
-    //    });
-    //}
-
-    // Event listener for login button
-    //document.getElementById("login-btn").addEventListener("click", function() {
-    //const email = document.getElementById("login-email").value;
-    //const password = document.getElementById("login-password").value;
-    //loginUser(email, password);
-    //});
-
-    // Event listener for signup button
-    //document.getElementById("signup-btn").addEventListener("click", function() {
-    //const email = document.getElementById("signup-email").value;
-    //const password = document.getElementById("signup-password").value;
-    //signUpUser(email, password);
-    //});
-
-
+    console.log()
 </script>
         
 </body>
